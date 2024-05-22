@@ -28,7 +28,6 @@ public class AdminService {
 
 	public ResponseEntity<ResponseStructure<Admin>> getAdminById(int id) {
 		ResponseStructure<Admin> structure=new ResponseStructure<>();
-
 		Optional<Admin> admin =adminDao.getAdminById(id);
 		if(admin.isPresent())
 		{
@@ -36,20 +35,15 @@ public class AdminService {
 			structure.setStatusCode(HttpStatus.FOUND.value());
 			structure.setData(admin.get());
 			return ResponseEntity.status(HttpStatus.FOUND).body(structure);
-	    }
-	    else {
-		structure.setMessage("Admin Not Found");
-		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
-		structure.setData(null);
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+		} else {
+			structure.setMessage("Admin Not Found");
+			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+			structure.setData(null);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+		}
 	}
-	
 
-}
-
-
-	public ResponseEntity<ResponseStructure<List<Admin>>> getAdmins() {
-		
+	public ResponseEntity<ResponseStructure<List<Admin>>> getAdmins() {	
 		ResponseStructure<List<Admin>> structure=new ResponseStructure<>();
 		structure.setMessage("List of Admins");
 		structure.setStatusCode(HttpStatus.FOUND.value());
@@ -60,7 +54,6 @@ public class AdminService {
 
 	public ResponseEntity<ResponseStructure<Admin>> deleteAdminById(int id) {
 		ResponseStructure<Admin> structure=new ResponseStructure<>();
-
 		Optional<Admin> admin =adminDao.getAdminById(id);
 		if(admin.isPresent())
 		{
@@ -69,17 +62,50 @@ public class AdminService {
 			structure.setData(admin.get());
 			adminDao.deleteAdminById(id);
 			return ResponseEntity.status(HttpStatus.FOUND).body(structure);
-		}
-		
-		else {
+		} else {
 			structure.setMessage("Admin Not Found");
 			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
 			structure.setData(null);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
 		}
-		
-	
 	}
 
+
+	public ResponseEntity<ResponseStructure<Admin>> verifyAdmin(String email, String password) {
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> admin =adminDao.verifyAdmin(email,password);
+		if(admin.isPresent())
+		{
+			structure.setMessage("Admin Verified");
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setData(admin.get());
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		} else {
+			structure.setMessage("Invalid credentials");
+			structure.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+			structure.setData(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(structure);
+		}
+	}
+
+	
+	
+	public ResponseEntity<ResponseStructure<Admin>> verifyAdmin(long phone, String password) {
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> admin =adminDao.verifyAdmin(phone,password);
+		if(admin.isPresent())
+		{
+			structure.setMessage("Admin Verified");
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setData(admin.get());
+			return ResponseEntity.status(HttpStatus.OK).body(structure);
+		} else {
+			structure.setMessage("Invalid credentials");
+			structure.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+			structure.setData(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(structure);
+		}
+	}
+	
 
 }

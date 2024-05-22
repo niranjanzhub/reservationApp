@@ -10,30 +10,33 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AdminDao {
-@Autowired
+	@Autowired
 	private AdminRepository adminRepository;
 
-public Admin saveAdmin(Admin admin) {
-	return adminRepository.save(admin);
-}
+	public Admin saveAdmin(Admin admin) {
+		return adminRepository.save(admin);
+	}
 
-public Optional<Admin> getAdminById(int id) {
-	
-	return adminRepository.findById(id);
-}
+	public Optional<Admin> getAdminById(int id) {
+		return adminRepository.findById(id);
+	}
 
-public List<Admin> getAdmins() {
+	public List<Admin> getAdmins() {
+		return adminRepository.findAll();
+	}
+
+	public void deleteAdminById(int id) {
+		adminRepository.deleteById(id);	
+	}
+
+	public Optional<Admin> verifyAdmin(String email, String password) {
+		return adminRepository.verifyAdmin(email,password);
+	}
 	
-	return adminRepository.findAll();
-}
+	public Optional<Admin> verifyAdmin(long phone, String password) {
+		return adminRepository.verifyAdmin(phone,password);
+	}
 
 
-
-public void deleteAdminById(int id) {
-	
-	adminRepository.deleteById(id);	
-}
-	
-	
 
 }
