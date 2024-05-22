@@ -58,4 +58,28 @@ public class AdminService {
 	}
 
 
+	public ResponseEntity<ResponseStructure<Admin>> deleteAdminById(int id) {
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+
+		Optional<Admin> admin =adminDao.getAdminById(id);
+		if(admin.isPresent())
+		{
+			structure.setMessage("Admin Found and deleted");
+			structure.setStatusCode(HttpStatus.FOUND.value());
+			structure.setData(admin.get());
+			adminDao.deleteAdminById(id);
+			return ResponseEntity.status(HttpStatus.FOUND).body(structure);
+		}
+		
+		else {
+			structure.setMessage("Admin Not Found");
+			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+			structure.setData(null);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+		}
+		
+	
+	}
+
+
 }

@@ -26,6 +26,14 @@ public List<Admin> getAdmins() {
 	
 	return adminRepository.findAll();
 }
+
+
+
+public void deleteAdminById(int id) {
+	
+	adminRepository.deleteById(id);	
+}
 	
 	
+
 }

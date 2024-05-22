@@ -7,6 +7,7 @@ import org.nirz.reservationApp.model.Admin;
 import org.nirz.reservationApp.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,13 @@ public ResponseEntity<ResponseStructure<List<Admin>>> getAdmins(){
 	return adminService.getAdmins();
 
 }
+
+@DeleteMapping("deleteAdmin/{id}")
+public ResponseEntity<ResponseStructure<Admin>> deleteAdminById(@PathVariable int id){
+	return adminService.deleteAdminById(id);
+
+}
+
 
 
 }
