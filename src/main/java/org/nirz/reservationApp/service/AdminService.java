@@ -1,5 +1,8 @@
 package org.nirz.reservationApp.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.nirz.reservationApp.Dao.AdminDao;
 import org.nirz.reservationApp.Dto.ResponseStructure;
 import org.nirz.reservationApp.model.Admin;
@@ -11,9 +14,9 @@ import org.springframework.stereotype.Service;
 public class AdminService {
 
 	@Autowired
-private	AdminDao adminDao;
-	
-	
+	private	AdminDao adminDao;
+
+
 	public ResponseEntity<ResponseStructure<Admin>> saveAdmin(Admin admin){
 		ResponseStructure<Admin> structure=new ResponseStructure<>();
 		structure.setMessage("New Admin Saved");
@@ -21,5 +24,38 @@ private	AdminDao adminDao;
 		structure.setData(adminDao.saveAdmin(admin));
 		return ResponseEntity.status(HttpStatus.CREATED).body(structure);
 	}
+
+
+	public ResponseEntity<ResponseStructure<Admin>> getAdminById(int id) {
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+
+		Optional<Admin> admin =adminDao.getAdminById(id);
+		if(admin.isPresent())
+		{
+			structure.setMessage("Admin Found");
+			structure.setStatusCode(HttpStatus.FOUND.value());
+			structure.setData(admin.get());
+			return ResponseEntity.status(HttpStatus.FOUND).body(structure);
+	    }
+	    else {
+		structure.setMessage("Admin Not Found");
+		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		structure.setData(null);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+	}
 	
+
+}
+
+
+	public ResponseEntity<ResponseStructure<List<Admin>>> getAdmins() {
+		
+		ResponseStructure<List<Admin>> structure=new ResponseStructure<>();
+		structure.setMessage("List of Admins");
+		structure.setStatusCode(HttpStatus.FOUND.value());
+		structure.setData(adminDao.getAdmins());
+		return ResponseEntity.status(HttpStatus.FOUND).body(structure);
+	}
+
+
 }
