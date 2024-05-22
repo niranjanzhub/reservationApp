@@ -106,6 +106,35 @@ public class AdminService {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(structure);
 		}
 	}
+
+
+	public ResponseEntity<ResponseStructure<Admin>> updateAdminById(Admin admin) {
+		ResponseStructure<Admin> structure=new ResponseStructure<>();
+		Optional<Admin> existingAdmin =adminDao.getAdminById(admin.getId());
+		if(existingAdmin.isPresent()) {
+			
+			existingAdmin.get().setName(admin.getName());
+			existingAdmin.get().setEmail(admin.getEmail());
+			existingAdmin.get().setPhone(admin.getPhone());
+			existingAdmin.get().setTravels(admin.getTravels());
+			existingAdmin.get().setGst(admin.getGst());
+			existingAdmin.get().setPassword(admin.getPassword());
+			
+			adminDao.saveAdmin(existingAdmin.get());
+			structure.setMessage("Admin Updated");
+			structure.setStatusCode(HttpStatus.ACCEPTED.value());
+			structure.setData(existingAdmin.get());
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(structure);
+			
+		}else {
+			structure.setMessage("failed to update");
+			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+			structure.setData(null);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+			
+		}
+	
+	}
 	
 
 }

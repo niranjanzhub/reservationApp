@@ -2,9 +2,11 @@ package org.nirz.reservationApp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Setter;
 
 @Entity
 @Data
+@Setter
 public class Admin {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
