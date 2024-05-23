@@ -2,9 +2,9 @@ package org.nirz.reservationApp.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.nirz.reservationApp.Dao.AdminDao;
 import org.nirz.reservationApp.Dto.ResponseStructure;
+import org.nirz.reservationApp.Exception.AdminNotFoundException;
 import org.nirz.reservationApp.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,12 +35,8 @@ public class AdminService {
 			structure.setStatusCode(HttpStatus.FOUND.value());
 			structure.setData(admin.get());
 			return ResponseEntity.status(HttpStatus.FOUND).body(structure);
-		} else {
-			structure.setMessage("Admin Not Found");
-			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
-			structure.setData(null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
-		}
+		} 
+		throw new AdminNotFoundException("Invalid Admin id or Admin Not Found");
 	}
 
 	public ResponseEntity<ResponseStructure<List<Admin>>> getAdmins() {	
@@ -62,12 +58,8 @@ public class AdminService {
 			structure.setData(admin.get());
 			adminDao.deleteAdminById(id);
 			return ResponseEntity.status(HttpStatus.FOUND).body(structure);
-		} else {
-			structure.setMessage("Admin Not Found");
-			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
-			structure.setData(null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
-		}
+		} 
+		throw new AdminNotFoundException("Invalid Admin id or Admin Not Found");
 	}
 
 
@@ -80,12 +72,8 @@ public class AdminService {
 			structure.setStatusCode(HttpStatus.OK.value());
 			structure.setData(admin.get());
 			return ResponseEntity.status(HttpStatus.OK).body(structure);
-		} else {
-			structure.setMessage("Invalid credentials");
-			structure.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-			structure.setData(null);
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(structure);
-		}
+		} 
+		throw new AdminNotFoundException("Invalid credentials");
 	}
 
 	
@@ -99,12 +87,8 @@ public class AdminService {
 			structure.setStatusCode(HttpStatus.OK.value());
 			structure.setData(admin.get());
 			return ResponseEntity.status(HttpStatus.OK).body(structure);
-		} else {
-			structure.setMessage("Invalid credentials");
-			structure.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-			structure.setData(null);
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(structure);
-		}
+		} 
+		throw new AdminNotFoundException("Invalid credentials");
 	}
 
 
@@ -126,13 +110,8 @@ public class AdminService {
 			structure.setData(existingAdmin.get());
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(structure);
 			
-		}else {
-			structure.setMessage("failed to update");
-			structure.setStatusCode(HttpStatus.NOT_FOUND.value());
-			structure.setData(null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
-			
 		}
+		throw new AdminNotFoundException("failed to update");
 	
 	}
 	
