@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ReservationAppExceptionHandler {
 	@ExceptionHandler(AdminNotFoundException.class)
-	public ResponseEntity<ResponseStructure<String>> handle(AdminNotFoundException exception) {
+	public ResponseEntity<ResponseStructure<String>> handleANFE(AdminNotFoundException exception) {
 		ResponseStructure<String> structure = new ResponseStructure<>();
 		structure.setData("Admin Not Found");
 		structure.setMessage(exception.getMessage());
@@ -26,6 +26,15 @@ public class ReservationAppExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
 	}
 
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> handleUNFE(UserNotFoundException exception) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setData("User Not Found");
+		structure.setMessage(exception.getMessage());
+		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(structure);
+	}
+	
 	@ExceptionHandler({ ConstraintViolationException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public String handleConstraintViolationException(ConstraintViolationException ex) {
