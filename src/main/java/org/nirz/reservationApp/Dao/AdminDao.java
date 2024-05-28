@@ -1,6 +1,5 @@
 package org.nirz.reservationApp.Dao;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.nirz.reservationApp.model.Admin;
@@ -17,26 +16,19 @@ public class AdminDao {
 		return adminRepository.save(admin);
 	}
 
-	public Optional<Admin> getAdminById(int id) {
+	public Optional<Admin> findById(int id) {
 		return adminRepository.findById(id);
 	}
 
-	public List<Admin> getAdmins() {
-		return adminRepository.findAll();
+	public Optional<Admin> verify(long phone, String password) {
+		return adminRepository.findByPhoneAndPassword(phone, password);
 	}
 
-	public void deleteAdminById(int id) {
-		adminRepository.deleteById(id);	
+	public Optional<Admin> verify(String email, String password) {
+		return adminRepository.findByEmailAndPassword(email, password);
 	}
 
-	public Optional<Admin> verifyAdmin(String email, String password) {
-		return adminRepository.verifyAdmin(email,password);
+	public void delete(int id) {
+		adminRepository.deleteById(id);
 	}
-	
-	public Optional<Admin> verifyAdmin(long phone, String password) {
-		return adminRepository.verifyAdmin(phone,password);
-	}
-
-
-
 }

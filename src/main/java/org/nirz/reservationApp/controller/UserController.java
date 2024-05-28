@@ -1,10 +1,12 @@
 package org.nirz.reservationApp.controller;
 
 
-import org.nirz.reservationApp.Dto.AdminRequest;
-import org.nirz.reservationApp.Dto.AdminResponse;
+
+
 import org.nirz.reservationApp.Dto.ResponseStructure;
-import org.nirz.reservationApp.service.AdminService;
+import org.nirz.reservationApp.Dto.UserRequest;
+import org.nirz.reservationApp.Dto.UserResponse;
+import org.nirz.reservationApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,41 +22,41 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admins")
-public class AdminController {
+@RequestMapping("/api/users")
+public class UserController {
 	@Autowired
-	private AdminService adminService;
+	private UserService userService;
 
 	@PostMapping
-	public ResponseEntity<ResponseStructure<AdminResponse>> saveAdmin(@Valid @RequestBody AdminRequest adminRequest) {
-		return adminService.saveAdmin(adminRequest);
+	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@Valid @RequestBody UserRequest userRequest) {
+		return userService.saveUser(userRequest);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdmin(@RequestBody AdminRequest adminRequest,
+	public ResponseEntity<ResponseStructure<UserResponse>> updateUser(@RequestBody UserRequest userRequest,
 			@PathVariable int id) {
-		return adminService.update(adminRequest, id);
+		return userService.update(userRequest, id);
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<ResponseStructure<AdminResponse>> saveAdmin(@PathVariable int id) {
-		return adminService.findById(id);
+	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@PathVariable int id) {
+		return userService.findById(id);
 	}
 
 	@PostMapping("/verify-by-phone")
-	public ResponseEntity<ResponseStructure<AdminResponse>> verify(@RequestParam long phone,
+	public ResponseEntity<ResponseStructure<UserResponse>> verify(@RequestParam long phone,
 			@RequestParam String password) {
-		return adminService.verify(phone, password);
+		return userService.verify(phone, password);
 	}
 
 	@PostMapping("/verify-by-email")
-	public ResponseEntity<ResponseStructure<AdminResponse>> verify(@RequestParam String email,
+	public ResponseEntity<ResponseStructure<UserResponse>> verify(@RequestParam String email,
 			@RequestParam String password) {
-		return adminService.verify(email, password);
+		return userService.verify(email, password);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseStructure<String>> delete(@PathVariable int id) {
-		return adminService.delete(id);
+		return userService.delete(id);
 	}
 }
